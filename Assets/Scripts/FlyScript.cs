@@ -34,7 +34,14 @@ namespace Assets.Scripts
             if (_isGameRunning)
             {
 #if UNITY_IPHONE || UNITY_ANDROID
-                
+                // Only wokrs for first finger
+                if (Input.touchCount > 0)
+                {
+                    if (Input.touches[0].phase == TouchPhase.Began)
+                    {
+                        CurrentVelocity = JumpVelocity;
+                    }
+                }
 
 #elif !UNITY_FLASH
                 if (Input.GetMouseButtonDown(0))
@@ -55,5 +62,7 @@ namespace Assets.Scripts
         {
             return v0 + a*dt;
         }
+
+
     }
 }

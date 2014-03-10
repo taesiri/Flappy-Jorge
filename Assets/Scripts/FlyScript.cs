@@ -8,7 +8,7 @@ namespace Assets.Scripts
         public float Gravity = 9.8f;
         public float CurrentVelocity = 0;
         public float JumpVelocity = 5.0f;
-
+        public GUISkin MenuSkin;
         private bool _isGameRunning = true;
 
         private void Update()
@@ -63,6 +63,16 @@ namespace Assets.Scripts
             return v0 + a*dt;
         }
 
-
+        private void OnGUI()
+        {
+            if (!_isGameRunning)
+            {
+                if (GUI.Button(new Rect(Screen.width/2 - 50, Screen.height/2 + 45, 150, 65),
+                    "Start Game", MenuSkin.button))
+                {
+                    Application.LoadLevel(0);
+                }
+            }
+        }
     }
 }

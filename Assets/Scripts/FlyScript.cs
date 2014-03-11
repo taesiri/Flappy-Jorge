@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using UnityEngineInternal;
+﻿using System;
+using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -34,7 +34,7 @@ namespace Assets.Scripts
             if (_isGameRunning)
             {
 #if UNITY_IPHONE || UNITY_ANDROID
-                // Only wokrs for first finger
+    // Only wokrs for first finger
                 if (Input.touchCount > 0)
                 {
                     if (Input.touches[0].phase == TouchPhase.Began)
@@ -73,6 +73,9 @@ namespace Assets.Scripts
                     Application.LoadLevel(0);
                 }
             }
+
+
+            GUI.Label(new Rect(10, 10, 250, 50), String.Format("Velocity {0}", CurrentVelocity), MenuSkin.label);
         }
     }
 }

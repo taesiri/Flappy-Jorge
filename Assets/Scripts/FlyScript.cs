@@ -27,14 +27,12 @@ namespace Assets.Scripts
                 CurrentVelocity = 0;
                 _isGameRunning = false;
             }
-        }
 
-        private void FixedUpdate()
-        {
+
             if (_isGameRunning)
             {
 #if UNITY_IPHONE || UNITY_ANDROID
-    // Only wokrs for first finger
+                // Only works for first finger
                 if (Input.touchCount > 0)
                 {
                     if (Input.touches[0].phase == TouchPhase.Began)

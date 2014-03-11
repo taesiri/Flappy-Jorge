@@ -21,18 +21,11 @@ namespace Assets.Scripts
                 transform.position = new Vector3(transform.position.x, newPosY, transform.position.z);
             }
 
-            if (transform.position.y <= -2.9f)
-            {
-                Gravity = 0;
-                CurrentVelocity = 0;
-                _isGameRunning = false;
-            }
-
 
             if (_isGameRunning)
             {
 #if UNITY_IPHONE || UNITY_ANDROID
-                // Only works for first finger
+    // Only works for first finger
                 if (Input.touchCount > 0)
                 {
                     if (Input.touches[0].phase == TouchPhase.Began)
@@ -74,6 +67,14 @@ namespace Assets.Scripts
 
 
             GUI.Label(new Rect(10, 10, 250, 50), String.Format("Velocity {0}", CurrentVelocity), MenuSkin.label);
+        }
+
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Gravity = 0;
+            CurrentVelocity = 0;
+            _isGameRunning = false;
         }
     }
 }

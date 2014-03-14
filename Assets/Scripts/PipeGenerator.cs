@@ -11,7 +11,7 @@ namespace Assets.Scripts
         public GameObject Pipe;
         private GameObject[] _pipes;
         private readonly Random _randomGenerator = new Random(DateTime.Now.Millisecond);
-
+        public GameScore GameScoreCounter;
         public GameStateEnum GameState;
 
         private void Start()
@@ -28,6 +28,7 @@ namespace Assets.Scripts
 
                     pscript.Distance = Distance;
                     pscript.Mother = this;
+                    pscript.MotherScoreCounter = GameScoreCounter;
                     pscript.NumberOfPipes = NumberOfPipes;
                     pscript.SetYOffset(_randomGenerator.Next(1, 780)/100f - 3.8f);
 

@@ -7,15 +7,16 @@ namespace Assets.Scripts
     public class PipeScript : MonoBehaviour
     {
         private readonly Random _randomGenerator = new Random(DateTime.Now.Millisecond);
-
+      
         public float Speed = 10;
-
         public float Distance;
+        public float ScoreUpXOffset = -0.9f;
         public int NumberOfPipes = 10;
-
         public float XOffset = -4;
-
         public PipeGenerator Mother;
+        public GameScore MotherScoreCounter;
+
+        private bool _isScored = false;
 
         public void SetYOffset(float yOffset)
         {
@@ -38,6 +39,13 @@ namespace Assets.Scripts
                 {
                     transform.position += Vector3.right*NumberOfPipes*Distance;
                     RandomYOffset();
+                    _isScored = false;
+                }
+
+                if (transform.position.x < ScoreUpXOffset && !_isScored)
+                {
+                    MotherScoreCounter.ScoreUp();
+                    _isScored = true;
                 }
             }
         }

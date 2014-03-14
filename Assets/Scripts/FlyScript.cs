@@ -52,8 +52,7 @@ namespace Assets.Scripts
 #endif
             }
         }
-
-
+        
         private float CalculatePosition(float y0, float v, float a, float dt)
         {
             return 0.5f*a*Mathf.Pow(dt, 2.0f) + v*dt + y0;
@@ -74,9 +73,6 @@ namespace Assets.Scripts
                     Application.LoadLevel(0);
                 }
             }
-
-
-            GUI.Label(new Rect(10, 10, 250, 50), String.Format("Velocity {0}", CurrentVelocity), MenuSkin.label);
         }
 
 

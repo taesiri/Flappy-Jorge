@@ -12,6 +12,7 @@ namespace Assets.Scripts
         private GameObject[] _pipes;
         private readonly Random _randomGenerator = new Random(DateTime.Now.Millisecond);
 
+        public GameStateEnum GameState;
 
         private void Start()
         {
@@ -26,12 +27,28 @@ namespace Assets.Scripts
                     var pscript = newPipe.GetComponent<PipeScript>();
 
                     pscript.Distance = Distance;
-
+                    pscript.Mother = this;
                     pscript.NumberOfPipes = NumberOfPipes;
                     pscript.SetYOffset(_randomGenerator.Next(1, 780)/100f - 3.8f);
 
                     _pipes[i] = newPipe;
                 }
+            }
+        }
+
+        public void ChangeGameState(GameStateEnum newState)
+        {
+            GameState = newState;
+            UpdateState();
+        }
+
+        private void UpdateState()
+        {
+            switch (GameState)
+            {
+                case GameStateEnum.GameOver:
+
+                    break;
             }
         }
     }

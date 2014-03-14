@@ -15,6 +15,8 @@ namespace Assets.Scripts
 
         public float XOffset = -4;
 
+        public PipeGenerator Mother;
+
         public void SetYOffset(float yOffset)
         {
             transform.position = new Vector3(transform.position.x, yOffset, transform.position.z);
@@ -28,12 +30,15 @@ namespace Assets.Scripts
 
         public void Update()
         {
-            transform.position += Vector3.left*Time.deltaTime*Speed;
-
-            if (transform.position.x < -4)
+            if (Mother.GameState == GameStateEnum.Running)
             {
-                transform.position += Vector3.right*NumberOfPipes*Distance;
-                RandomYOffset();
+                transform.position += Vector3.left*Time.deltaTime*Speed;
+
+                if (transform.position.x < -4)
+                {
+                    transform.position += Vector3.right*NumberOfPipes*Distance;
+                    RandomYOffset();
+                }
             }
         }
     }

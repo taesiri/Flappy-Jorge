@@ -10,6 +10,16 @@ namespace Assets.Scripts
         public float JumpVelocity = 5.0f;
         public GUISkin MenuSkin;
         private bool _isGameRunning = true;
+        private bool _isBirdCollided = false;
+        public PipeGenerator MasterPipeGenerator;
+
+        public void Start()
+        {
+            if (!MasterPipeGenerator)
+            {
+                Debug.LogError("PipeGenerator Not Attached!");
+            }
+        }
 
         private void Update()
         {
@@ -22,10 +32,10 @@ namespace Assets.Scripts
             }
 
 
-            if (_isGameRunning)
+            if (_isGameRunning && !_isBirdCollided)
             {
 #if UNITY_IPHONE || UNITY_ANDROID
-    // Only works for first finger
+                // Only works for first finger
                 if (Input.touchCount > 0)
                 {
                     if (Input.touches[0].phase == TouchPhase.Began)
@@ -72,9 +82,20 @@ namespace Assets.Scripts
 
         private void OnTriggerEnter(Collider other)
         {
-            Gravity = 0;
-            CurrentVelocity = 0;
-            _isGameRunning = false;
+            if (other.gameObject.tag == "DownGuard")
+            {
+                Gravity = 0;
+                CurrentVelocity = 0;
+                _isBirdCollided = true;
+                _isGameRunning = false;
+            }
+            else
+            {
+                _isBirdCollided = true;
+            }
+
+
+            MasterPipeGenerator.ChangeGameState(GameStateEnum.GameOver);
         }
     }
 }

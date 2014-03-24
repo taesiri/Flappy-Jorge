@@ -7,16 +7,24 @@ namespace Assets.Scripts
     public class PipeScript : MonoBehaviour
     {
         private readonly Random _randomGenerator = new Random(DateTime.Now.Millisecond);
-      
+
+        public GameManager GManger;
+
         public float Speed = 10;
         public float Distance;
         public float ScoreUpXOffset = -0.9f;
         public int NumberOfPipes = 10;
         public float XOffset = -4;
         public PipeGenerator Mother;
-        public GameScore MotherScoreCounter;
-
         private bool _isScored = false;
+
+        public void Start()
+        {
+            if (!GManger)
+            {
+                Debug.LogError("Game Manager Not Found");
+            }
+        }
 
         public void SetYOffset(float yOffset)
         {
@@ -31,7 +39,7 @@ namespace Assets.Scripts
 
         public void Update()
         {
-            if (Mother.GameState == GameStateEnum.Running)
+            if (GManger.GameState == GameStateEnum.Running)
             {
                 transform.position += Vector3.left*Time.deltaTime*Speed;
 
@@ -44,7 +52,7 @@ namespace Assets.Scripts
 
                 if (transform.position.x < ScoreUpXOffset && !_isScored)
                 {
-                    MotherScoreCounter.ScoreUp();
+                    GManger.ScoreUp();
                     _isScored = true;
                 }
             }

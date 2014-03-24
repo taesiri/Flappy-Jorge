@@ -6,16 +6,22 @@ namespace Assets.Scripts
 {
     public class PipeGenerator : MonoBehaviour
     {
+        public GameManager GManger;
+
         public float Distance;
         public int NumberOfPipes = 10;
+        public float PipeSpeed = 2;
         public GameObject Pipe;
         private GameObject[] _pipes;
         private readonly Random _randomGenerator = new Random(DateTime.Now.Millisecond);
-        public GameScore GameScoreCounter;
-        public GameStateEnum GameState;
-
+    
         private void Start()
         {
+            if (!GManger)
+            {
+                Debug.LogError("Game Manager Not Found");
+            }
+
             _pipes = new GameObject[NumberOfPipes];
 
             for (int i = 0; i < NumberOfPipes; i++)
@@ -28,29 +34,16 @@ namespace Assets.Scripts
 
                     pscript.Distance = Distance;
                     pscript.Mother = this;
-                    pscript.MotherScoreCounter = GameScoreCounter;
+                    pscript.GManger = GManger;
                     pscript.NumberOfPipes = NumberOfPipes;
-                    pscript.SetYOffset(_randomGenerator.Next(1, 780)/100f - 3.8f);
+                    pscript.SetYOffset(_randomGenerator.Next(100, 600)/100f - 3f);
+                    pscript.Speed = PipeSpeed;
 
                     _pipes[i] = newPipe;
                 }
             }
         }
 
-        public void ChangeGameState(GameStateEnum newState)
-        {
-            GameState = newState;
-            UpdateState();
-        }
-
-        private void UpdateState()
-        {
-            switch (GameState)
-            {
-                case GameStateEnum.GameOver:
-
-                    break;
-            }
-        }
+     
     }
 }

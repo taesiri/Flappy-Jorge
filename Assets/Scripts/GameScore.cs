@@ -7,6 +7,15 @@ namespace Assets.Scripts
     {
         public int Score;
         public GUISkin MenuSkin;
+        public GameManager GManger;
+
+        public void Start()
+        {
+            if (!GManger)
+            {
+                Debug.LogError("Game Manager Not Found");
+            }
+        }
 
         public void ScoreUp()
         {

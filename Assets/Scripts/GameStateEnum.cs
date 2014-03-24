@@ -5,6 +5,7 @@
         Running = 0,
         Paused = 1,
         Resumed = 2,
-        GameOver
+        GameOver = 3,
+        StartScreen = 4
     }
 }

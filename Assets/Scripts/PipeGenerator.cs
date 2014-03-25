@@ -14,7 +14,7 @@ namespace Assets.Scripts
         public GameObject Pipe;
         private GameObject[] _pipes;
         private readonly Random _randomGenerator = new Random(DateTime.Now.Millisecond);
-    
+
         private void Start()
         {
             if (!GManger)
@@ -36,14 +36,16 @@ namespace Assets.Scripts
                     pscript.Mother = this;
                     pscript.GManger = GManger;
                     pscript.NumberOfPipes = NumberOfPipes;
-                    pscript.SetYOffset(_randomGenerator.Next(100, 600)/100f - 3f);
+
+                    var yoff = (_randomGenerator.Next(0, 500)/100f) - 1.8f;
+                    pscript.SetYOffset(yoff);
+                    Debug.Log(yoff);
+
                     pscript.Speed = PipeSpeed;
 
                     _pipes[i] = newPipe;
                 }
             }
         }
-
-     
     }
 }

@@ -1,13 +1,16 @@
 ﻿using System;
+using System.IO;
 using UnityEngine;
 
 namespace Assets.Scripts
 {
     public class GameScore : MonoBehaviour
     {
-        public int Score;
+        private int _score;
         public GUISkin MenuSkin;
         public GameManager GManger;
+
+        public GUILocationHelper Location = new GUILocationHelper();
 
         public void Start()
         {
@@ -15,16 +18,25 @@ namespace Assets.Scripts
             {
                 Debug.LogError("Game Manager Not Found");
             }
+
+            Location.PointLocation = GUILocationHelper.Point.Center;
+            Location.UpdateLocation();
         }
 
         public void ScoreUp()
         {
-            Score++;
+            _score++;
+        }
+
+        public int GetScore()
+        {
+            return _score;
         }
 
         private void OnGUI()
         {
-            GUI.Label(new Rect(10, 10, 250, 50), String.Format("Score : {0}", Score), MenuSkin.label);
+            if (GManger.GameState == GameStateEnum.Running)
+                GUI.Label(new Rect(Location.Offset.x-125, 10, 250, 50), String.Format("{0}", _score), MenuSkin.label);
         }
     }
 }

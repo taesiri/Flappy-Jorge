@@ -1,32 +1,32 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public class FlyScript : MonoBehaviour
+    public class MovementController : MonoBehaviour
     {
-        public GameManager GManger;
-        public float Gravity = 9.8f;
-        public float CurrentVelocity = 0;
-        public float JumpVelocity = 5.0f;
+        public float TargetForce = 10.0f;
+        public float JumpVelocity = 4.0f;
         private bool _isGameRunning = true;
         private bool _isBirdCollided = false;
-        public PipeGenerator MasterPipeGenerator;
+        public float Gravity = 9.8f;
+        public float CurrentVelocity = 0;
 
+        public Camera FollowCam;
+        public GameObject Background;
 
-        public void Start()
-        {
-            if (!GManger)
-            {
-                Debug.LogError("Game Manager Not Found");
-            }
-            if (!MasterPipeGenerator)
-            {
-                Debug.LogError("PipeGenerator Not Attached!");
-            }
-        }
 
         private void Update()
+        {
+            transform.position += Vector3.right*TargetForce*Time.deltaTime;
+            FollowCam.transform.position += Vector3.right*TargetForce*Time.deltaTime;
+            Background.transform.position += Vector3.right*TargetForce*Time.deltaTime;
+
+            HanldeInput();
+
+            HandleRotation();
+        }
+
+        private void HanldeInput()
         {
             if (_isGameRunning)
             {
@@ -37,12 +37,12 @@ namespace Assets.Scripts
             }
 
 
-            HanldeInput();
-            HandleRotation();
-        }
+            if (Input.GetMouseButtonDown(0))
+            {
+                CurrentVelocity = JumpVelocity;
+            }
 
-        private void HanldeInput()
-        {
+
             if (_isGameRunning && !_isBirdCollided)
             {
                 if (transform.position.y < 5.5)
@@ -55,10 +55,6 @@ namespace Assets.Scripts
                         {
                             CurrentVelocity = JumpVelocity;
                         }
-                    }
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        CurrentVelocity = JumpVelocity;
                     }
 
 #elif !UNITY_FLASH
@@ -74,7 +70,7 @@ namespace Assets.Scripts
 
         private void HandleRotation()
         {
-            var velY = CurrentVelocity;
+            var velY = rigidbody.velocity.y;
 
             if (velY < -0.5)
             {
@@ -89,11 +85,9 @@ namespace Assets.Scripts
             }
             else
             {
-                if (_isGameRunning)
-                    transform.rotation = Quaternion.Euler(0, 0, 4*velY);
+                transform.rotation = Quaternion.Euler(0, 0, 4*velY);
             }
         }
-
 
         private float CalculatePosition(float y0, float v, float a, float dt)
         {
@@ -121,7 +115,7 @@ namespace Assets.Scripts
             }
 
 
-            GManger.ChangeGameState(GameStateEnum.GameOver);
+            //GManger.ChangeGameState(GameStateEnum.GameOver);
         }
     }
 }

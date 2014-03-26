@@ -12,7 +12,7 @@ namespace Assets.Scripts
 
         private void Update()
         {
-            if (GManager.GameState == GameStateEnum.Running)
+            if (GManager.GameState == GameStateEnum.Running || GManager.GameState == GameStateEnum.StartScreen)
             {
                 transform.position += Vector3.left*Time.deltaTime*Speed;
 

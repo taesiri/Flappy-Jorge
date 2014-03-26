@@ -9,10 +9,16 @@ namespace Assets.Scripts
         public float Gravity = 9.8f;
         public float CurrentVelocity = 0;
         public float JumpVelocity = 5.0f;
-        private bool _isGameRunning = true;
+        private bool _isGameRunning = false;
         private bool _isBirdCollided = false;
+        private bool _firstStart = true;
         public PipeGenerator MasterPipeGenerator;
 
+        public AnimationCurve IdleAnimation;
+
+
+        private float _initialX;
+        private float _initialZ;
 
         public void Start()
         {
@@ -24,6 +30,8 @@ namespace Assets.Scripts
             {
                 Debug.LogError("PipeGenerator Not Attached!");
             }
+            _initialX = transform.position.x;
+            _initialZ = transform.position.z;
         }
 
         private void Update()
@@ -35,15 +43,31 @@ namespace Assets.Scripts
 
                 transform.position = new Vector3(transform.position.x, newPosY, transform.position.z);
             }
+            else if (_firstStart)
+            {
+                if (Input.touchCount > 0 || Input.GetMouseButtonDown(0))
+                {
+                    GManger.ChangeGameState(GameStateEnum.Running);
+                    _firstStart = false;
+                    _isGameRunning = true;
+                }
 
+                transform.position = new Vector3(_initialX, 2f + IdleAnimation.Evaluate(Time.time), _initialZ);
+            }
 
-            HanldeInput();
-            HandleRotation();
+            if (_isGameRunning)
+            {
+                HanldeInput();
+                HandleRotation();
+            }
+            else
+            {
+            }
         }
 
         private void HanldeInput()
         {
-            if (_isGameRunning && !_isBirdCollided)
+            if (!_isBirdCollided)
             {
                 if (transform.position.y < 5.5)
                 {

@@ -21,7 +21,11 @@ namespace Assets.Scripts
             {
                 Debug.LogError("Game Manager Not Found");
             }
+        }
 
+
+        public void Generate()
+        {
             _pipes = new GameObject[NumberOfPipes];
 
             for (int i = 0; i < NumberOfPipes; i++)
@@ -37,14 +41,25 @@ namespace Assets.Scripts
                     pscript.GManger = GManger;
                     pscript.NumberOfPipes = NumberOfPipes;
 
-                    var yoff = (_randomGenerator.Next(0, 500)/100f) - 1.8f;
+                    var yoff = GenerateYOffset(-1.8f, 3.4f);
+
                     pscript.SetYOffset(yoff);
-                    Debug.Log(yoff);
-
                     pscript.Speed = PipeSpeed;
-
                     _pipes[i] = newPipe;
                 }
+            }
+        }
+
+        private float GenerateYOffset(float min, float max)
+        {
+            var value = _randomGenerator.Next(0, (int)((max - min) * 100)) / 100f + min;
+            if (value < max && value > min)
+            {
+                return value;
+            }
+            else
+            {
+                return GenerateYOffset(min, max);
             }
         }
     }

@@ -9,7 +9,8 @@ namespace Assets.Scripts
         public GUISkin ScoreSkin;
         public GameScore GameScoreCounter;
         public GUILocationHelper Location = new GUILocationHelper();
-
+        public PipeGenerator Generator;
+        public FlyScript Bird;
         private int _highScore = 0;
         private int _currentScore = 0;
 
@@ -19,8 +20,19 @@ namespace Assets.Scripts
             {
                 Debug.LogError("Game Score Not Found");
             }
+            if (!Generator)
+            {
+                Debug.LogError("Pipe Generator Not Found");
+            }
+            if (!Bird)
+            {
+                Debug.LogError("Bird Not Found");
+            }
+
             Location.PointLocation = GUILocationHelper.Point.Center;
             Location.UpdateLocation();
+
+            GameState = GameStateEnum.StartScreen;
         }
 
         public void ScoreUp()
@@ -43,6 +55,10 @@ namespace Assets.Scripts
                     _currentScore = GameScoreCounter.GetScore();
                     SaveScore();
                     break;
+
+                case GameStateEnum.Running:
+                    Generator.Generate();
+                    break;
             }
         }
 
@@ -61,6 +77,7 @@ namespace Assets.Scripts
         {
             if (GameState == GameStateEnum.StartScreen)
             {
+                GUI.Label(new Rect(Location.Offset.x - 200, Location.Offset.y, 400, 50), "TAP TO START", ScoreSkin.label);
             }
 
             if (GameState == GameStateEnum.GameOver)

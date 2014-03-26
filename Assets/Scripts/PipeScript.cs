@@ -18,6 +18,7 @@ namespace Assets.Scripts
         public PipeGenerator Mother;
         private bool _isScored = false;
 
+
         public void Start()
         {
             if (!GManger)
@@ -31,12 +32,6 @@ namespace Assets.Scripts
             transform.position = new Vector3(transform.position.x, yOffset, transform.position.z);
         }
 
-        public void RandomYOffset()
-        {
-            var y = _randomGenerator.Next(1, 780)/100f - 3.8f;
-            transform.position = new Vector3(transform.position.x, y, transform.position.z);
-        }
-
         public void Update()
         {
             if (GManger.GameState == GameStateEnum.Running)
@@ -46,7 +41,9 @@ namespace Assets.Scripts
                 if (transform.position.x < -4)
                 {
                     transform.position += Vector3.right*NumberOfPipes*Distance;
-                    RandomYOffset();
+                    var newYOffset = GenerateYOffset(-1.8f, 3.4f);
+                    transform.position = new Vector3(transform.position.x, newYOffset, transform.position.z);
+
                     _isScored = false;
                 }
 
@@ -55,6 +52,19 @@ namespace Assets.Scripts
                     GManger.ScoreUp();
                     _isScored = true;
                 }
+            }
+        }
+
+        private float GenerateYOffset(float min, float max)
+        {
+            var value = _randomGenerator.Next(0, (int) ((max - min)*100))/100f + min;
+            if (value < max && value > min)
+            {
+                return value;
+            }
+            else
+            {
+                return GenerateYOffset(min, max);
             }
         }
     }

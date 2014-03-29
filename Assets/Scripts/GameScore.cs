@@ -21,6 +21,7 @@ namespace Assets.Scripts
 
             Location.PointLocation = GUILocationHelper.Point.Center;
             Location.UpdateLocation();
+
         }
 
         public void ScoreUp()
@@ -31,12 +32,6 @@ namespace Assets.Scripts
         public int GetScore()
         {
             return _score;
-        }
-
-        private void OnGUI()
-        {
-            if (GManger.GameState == GameStateEnum.Running)
-                GUI.Label(new Rect(Location.Offset.x-125, 25, 250, 50), String.Format("{0}", _score), MenuSkin.label);
         }
     }
 }

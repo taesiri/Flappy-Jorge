@@ -5,6 +5,9 @@ namespace Assets.Scripts
 {
     public class GUILocationHelper
     {
+        public float OriginalWidth = 519f;
+        public float OriginalHeigth = 831f;
+
         public enum Point
         {
             TopLeft,
@@ -14,9 +17,9 @@ namespace Assets.Scripts
             Center
         }
 
-
         public Point PointLocation = Point.TopLeft;
         public Vector2 Offset;
+        public Vector2 GuiOffset;
 
         public void UpdateLocation()
         {
@@ -26,18 +29,21 @@ namespace Assets.Scripts
                     Offset = new Vector2(0, 0);
                     break;
                 case Point.TopRigjt:
-                    Offset = new Vector2(Screen.width, 0);
+                    Offset = new Vector2(OriginalWidth, 0);
                     break;
                 case Point.BottomLeft:
-                    Offset = new Vector2(0, Screen.height);
+                    Offset = new Vector2(0, OriginalHeigth);
                     break;
                 case Point.BottomRight:
-                    Offset = new Vector2(Screen.width, Screen.height);
+                    Offset = new Vector2(OriginalWidth, OriginalHeigth);
                     break;
                 case Point.Center:
-                    Offset = new Vector2(Screen.width/2f, Screen.height/2f);
+                    Offset = new Vector2(OriginalWidth/2f, OriginalHeigth/2f);
                     break;
             }
+
+            GuiOffset.x = Screen.width/OriginalWidth;
+            GuiOffset.y = Screen.height/OriginalHeigth;
         }
     }
 }

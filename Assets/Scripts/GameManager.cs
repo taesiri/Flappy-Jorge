@@ -23,6 +23,9 @@ namespace Assets.Scripts
 
         public GUISkin EmpySkin;
 
+
+        private Matrix4x4 _guiMatrix;
+
         private void Start()
         {
             if (!GameScoreCounter)
@@ -42,6 +45,11 @@ namespace Assets.Scripts
             Location.UpdateLocation();
 
             GameState = GameStateEnum.StartScreen;
+
+
+            Vector2 ratio = Location.GuiOffset;
+            _guiMatrix = Matrix4x4.identity;
+            _guiMatrix.SetTRS(new Vector3(1, 1, 1), Quaternion.identity, new Vector3(ratio.x, ratio.y, 1));
         }
 
         public void ScoreUp()
@@ -84,10 +92,7 @@ namespace Assets.Scripts
 
         private void OnGUI()
         {
-            Vector2 ratio = Location.GuiOffset;
-            Matrix4x4 guiMatrix = Matrix4x4.identity;
-            guiMatrix.SetTRS(new Vector3(1, 1, 1), Quaternion.identity, new Vector3(ratio.x, ratio.y, 1));
-            GUI.matrix = guiMatrix;
+            GUI.matrix = _guiMatrix;
 
             if (GameState == GameStateEnum.StartScreen)
             {
